@@ -5,7 +5,7 @@ import java.util.Observable;
 
 
 /** The state of a game of 2048.
- *  @author TODO: YOUR NAME HERE
+ *  @author Bozhi-Lyu
  */
 public class Model extends Observable {
     /** Current contents of the board. */
@@ -114,11 +114,74 @@ public class Model extends Observable {
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
 
+        board.setViewingPerspective(side);
+        for (int c = 0; c < board.size(); c++){
+            changed = eachColTile(c) || changed;
+        }
+        board.setViewingPerspective(Side.NORTH);
+
         checkGameOver();
         if (changed) {
             setChanged();
         }
         return changed;
+    }
+
+    /** Tilt an independent column toward SIDE. Return true iff this changes the board.*/
+    private boolean eachColTile(int col) {
+
+        boolean changed = false;
+        int targetRow = board.size() - 1;
+        int t1row = findNextTileRow(col, targetRow);
+        if (t1row < 0){
+            return changed;
+        }
+
+        while(t1row >= 0){
+
+            Tile tile1 = board.tile(col, t1row);
+
+            if (board.tile(col, targetRow) == null){
+                //System.out.println("situation1: tile1 move to null. ");
+                t1row = findNextTileRow(col, t1row - 1);
+                board.move(col, targetRow, tile1);
+                changed = true;
+            } else if (t1row == targetRow) {
+                //System.out.println("situation2: tile1 tarRow are the same. not move. ");
+                t1row = findNextTileRow(col, t1row - 1);
+            } else if (tile1.value() == board.tile(col, targetRow).value()) {
+                //System.out.println("situation3: merge");
+                board.move(col, targetRow, tile1);
+                score += board.tile(col, targetRow).value();
+                targetRow -= 1;
+                t1row = findNextTileRow(col, targetRow);
+                changed = true;
+            } else {
+                //System.out.println("situation4: diff value, move to next tile, not merge");
+                board.move(col, targetRow - 1, tile1);
+                targetRow -= 1;
+                t1row = findNextTileRow(col, targetRow - 1);
+                changed = true;
+            }
+        }
+
+        return changed;
+    }
+
+    /** To find the row of the next not-null tile, start from
+     * row(included) in the same column */
+    private int findNextTileRow(int col, int row){
+        int r0 = -1;
+        if (row < 0){
+            return -1;
+        }
+        for (int r = row ; r >= 0; r-- ){
+            if (board.tile(col, r) != null){
+                r0 = r;
+                break;
+            }
+        }
+        return r0;
     }
 
     /** Checks if the game is over and sets the gameOver variable
@@ -137,6 +200,13 @@ public class Model extends Observable {
      *  Empty spaces are stored as null.
      * */
     public static boolean emptySpaceExists(Board b) {
+        for(int i = 0; i < b.size(); i = i + 1){
+            for(int j = 0; j < b.size(); j = j + 1){
+                if(b.tile(i, j) == null){
+                    return true;
+                }
+            }
+        }
         // TODO: Fill in this function.
         return false;
     }
@@ -147,6 +217,13 @@ public class Model extends Observable {
      * given a Tile object t, we get its value with t.value().
      */
     public static boolean maxTileExists(Board b) {
+        for(int i = 0; i < b.size(); i++){
+            for(int j = 0; j < b.size(); j++){
+                if((b.tile(i, j) != null) && (b.tile(i, j).value() == MAX_PIECE)){
+                    return true;
+                }
+            }
+        }
         // TODO: Fill in this function.
         return false;
     }
@@ -158,6 +235,28 @@ public class Model extends Observable {
      * 2. There are two adjacent tiles with the same value.
      */
     public static boolean atLeastOneMoveExists(Board b) {
+        if (emptySpaceExists(b)){
+            return true;
+        }
+        /** Determine if there are same-value-tiles adjacent horizontally */
+        for (int i = 0; i < b.size(); i++){
+            for (int j = 0; j < b.size(); j++){
+
+                if (j < b.size() - 1){
+                    if (b.tile(i, j).value() == b.tile(i, j + 1).value()){
+                        return true;
+                    }
+
+                if (i < b.size() - 1){
+                    if (b.tile(i, j).value() == b.tile(i + 1, j).value()){
+                        return true;
+                    }
+                }
+
+                }
+            }
+        }
+
         // TODO: Fill in this function.
         return false;
     }
