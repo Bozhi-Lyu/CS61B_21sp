@@ -26,7 +26,7 @@ public class TimeAList {
         // The 1st column N, the size of the AList.
         AList<Integer> Ns = new AList();
         Ns.addLast(1000); // the size of the first AList.
-        for(int i = 0; i < 15; i++){
+        for(int i = 0; i < 7; i++){
             Ns.addLast(2 * Ns.getLast());
         }
 
