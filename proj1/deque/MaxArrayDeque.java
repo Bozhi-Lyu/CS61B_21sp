@@ -3,37 +3,37 @@ import java.util.Comparator;
 import java.util.Deque;
 
 
-public class MaxArrayDeque<Deque> extends ArrayDeque<Deque>{
+public class MaxArrayDeque<T> extends ArrayDeque<T> {
 
-    private Comparator<Deque> defaultComparator;
+    private final Comparator<T> defaultComparator;
 
-    public MaxArrayDeque(Comparator<Deque> c){
+    public MaxArrayDeque(Comparator<T> c){
         defaultComparator = c;
         new ArrayDeque<>();
     }
 
-    public Deque max(){
-        if (this.size() == 0){
+    public T max() {
+        if (this.size() == 0) {
             return null;
         }
 
-        Deque maxItem = this.get(0);
-        for (int i = 1; i < this.size(); i++){
-            if (defaultComparator.compare(this.get(i), maxItem) > 0){
+        T maxItem = this.get(0);
+        for (int i = 1; i < this.size(); i++) {
+            if (defaultComparator.compare(this.get(i), maxItem) > 0) {
                 maxItem = this.get(i);
             }
         }
         return maxItem;
     }
 
-    public Deque max(Comparator<Deque> c){
-        if (this.size() == 0){
+    public T max(Comparator<T> c) {
+        if (this.size() == 0) {
             return null;
         }
 
-        Deque maxItem = this.get(0);
-        for (int i = 1; i < this.size(); i++){
-            if (c.compare(this.get(i), maxItem) > 0){
+        T maxItem = this.get(0);
+        for (int i = 1; i < this.size(); i++) {
+            if (c.compare(this.get(i), maxItem) > 0) {
                 maxItem = this.get(i);
             }
         }

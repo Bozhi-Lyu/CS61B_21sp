@@ -3,10 +3,10 @@ package deque;
 public class LinkedListDeque<DequeT> implements Deque<DequeT> {
 
     private static class DLList<T> {
-        public T item;
-        public DLList<T> prev;
-        public DLList<T> next;
-        public DLList(T i, DLList<T> p, DLList<T> n){
+        T item;
+        DLList<T> prev;
+        DLList<T> next;
+        DLList(T i, DLList<T> p, DLList<T> n) {
             item = i;
             prev = p;
             next = n;
@@ -16,14 +16,14 @@ public class LinkedListDeque<DequeT> implements Deque<DequeT> {
     private int size;
     private DLList<DequeT> sentinel = new DLList<>(null, null, null);
 
-    public LinkedListDeque(){
+    public LinkedListDeque() {
         size = 0;
         sentinel.prev = sentinel;
         sentinel.next = sentinel;
     }
 
     @Override
-    public void addFirst(DequeT x){
+    public void addFirst(DequeT x) {
         DLList<DequeT> newItem = new DLList<>(x, sentinel, sentinel.next);
         sentinel.next.prev = newItem;
         sentinel.next = newItem;
@@ -31,7 +31,7 @@ public class LinkedListDeque<DequeT> implements Deque<DequeT> {
     }
 
     @Override
-    public void addLast(DequeT x){
+    public void addLast(DequeT x) {
         DLList<DequeT> newItem = new DLList<>(x, sentinel.prev, sentinel);
         sentinel.prev.next = newItem;
         sentinel.prev = newItem;
@@ -39,14 +39,14 @@ public class LinkedListDeque<DequeT> implements Deque<DequeT> {
     }
 
     @Override
-    public int size(){
+    public int size() {
         return size;
     }
 
     @Override
-    public void printDeque(){
+    public void printDeque() {
         DLList<DequeT> p = sentinel.next;
-        for (int i = 0; i < size; i++){
+        for (int i = 0; i < size; i++) {
             System.out.print(p.item + " ");
             p = p.next;
         }
@@ -54,8 +54,8 @@ public class LinkedListDeque<DequeT> implements Deque<DequeT> {
     }
 
     @Override
-    public DequeT removeFirst(){
-        if (sentinel.next == sentinel){
+    public DequeT removeFirst() {
+        if (sentinel.next == sentinel) {
             return null;
         } else {
             DLList<DequeT> removedItem = sentinel.next;
@@ -68,8 +68,8 @@ public class LinkedListDeque<DequeT> implements Deque<DequeT> {
     }
 
     @Override
-    public DequeT removeLast(){
-        if (sentinel.prev == sentinel){
+    public DequeT removeLast() {
+        if (sentinel.prev == sentinel) {
             return null;
         } else {
             DLList<DequeT> removedItem = sentinel.prev;
@@ -82,10 +82,10 @@ public class LinkedListDeque<DequeT> implements Deque<DequeT> {
     }
 
     @Override
-    public DequeT get(int index){
+    public DequeT get(int index) {
         DLList<DequeT> p = sentinel.next;
-        for (int i = 0; i < index; i++){
-            if (p == sentinel){
+        for (int i = 0; i < index; i++) {
+            if (p == sentinel) {
                 return null;
             }
             p = p.next;
@@ -94,8 +94,8 @@ public class LinkedListDeque<DequeT> implements Deque<DequeT> {
     }
 
     /** Helps to recursively get the ith item. */
-    private DequeT recursionHelper(DLList<DequeT> p, int i){
-        if (p == sentinel){
+    private DequeT recursionHelper(DLList<DequeT> p, int i) {
+        if (p == sentinel) {
             return null;
         } else if (i == 0) {
             return p.item;
@@ -105,7 +105,7 @@ public class LinkedListDeque<DequeT> implements Deque<DequeT> {
     }
 
     /** Same as get but uses recursion. */
-    public DequeT getRecursive(int index){
+    public DequeT getRecursive(int index) {
         return recursionHelper(sentinel.next, index);
     }
 

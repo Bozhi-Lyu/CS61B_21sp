@@ -1,6 +1,6 @@
 package deque;
 
-public class ArrayDeque<DequeT> implements Deque<DequeT>{
+public class ArrayDeque<DequeT> implements Deque<DequeT> {
 
     private int size;
     private int head;
@@ -9,22 +9,22 @@ public class ArrayDeque<DequeT> implements Deque<DequeT>{
 
     private class AList<T> {
         private T[] items;
-        private AList(){
+        private AList() {
             items = (T []) new Object[length];
         }
     }
 
     private AList<DequeT> AL = new AList<>();
 
-    public ArrayDeque(){
+    public ArrayDeque() {
         size = 0;
         head = 0;
         end = 0;
     }
 
     @Override
-    public void addFirst(DequeT x){
-        if (size == 0){
+    public void addFirst(DequeT x) {
+        if (size == 0) {
             AL.items[head] = x;
             size += 1;
             return;
@@ -37,8 +37,8 @@ public class ArrayDeque<DequeT> implements Deque<DequeT>{
     }
 
     @Override
-    public void addLast(DequeT x){
-        if (size == 0){
+    public void addLast(DequeT x) {
+        if (size == 0) {
             AL.items[end] = x;
             size += 1;
             return;
@@ -52,14 +52,14 @@ public class ArrayDeque<DequeT> implements Deque<DequeT>{
 
 
     @Override
-    public int size(){
+    public int size() {
         return size;
     }
 
     @Override
-    public void printDeque(){
+    public void printDeque() {
         int p = head;
-        for (int i = 0; i < size; i++){
+        for (int i = 0; i < size; i++) {
             System.out.print(AL.items[p] + " ");
             p = (p + 1) % length;
         }
@@ -67,11 +67,11 @@ public class ArrayDeque<DequeT> implements Deque<DequeT>{
     }
 
     @Override
-    public DequeT removeFirst(){
-        if (size == 0){
+    public DequeT removeFirst() {
+        if (size == 0) {
             return null;
         }
-        if (size == 1){
+        if (size == 1) {
             DequeT removedItem = AL.items[head];
             AL.items[head] = null;
             size -= 1;
@@ -87,11 +87,11 @@ public class ArrayDeque<DequeT> implements Deque<DequeT>{
     }
 
     @Override
-    public DequeT removeLast(){
-        if (size == 0){
+    public DequeT removeLast() {
+        if (size == 0) {
             return null;
         }
-        if (size == 1){
+        if (size == 1) {
             DequeT removedItem = AL.items[end];
             AL.items[end] = null;
             size -= 1;
@@ -106,17 +106,17 @@ public class ArrayDeque<DequeT> implements Deque<DequeT>{
         return removedItem;
     }
 
-    private void resize(int i){
+    private void resize(int i) {
 
         int oriLength = length;
-        if (i == 1){ //When adding an item:
-            if (length == size){
+        if (i == 1) { //When adding an item:
+            if (length == size) {
                 length *= 2;
             } else {
                 return;
             }
         } else if (i == -1) { //when removing an item:
-            if (length >= 16 && length > 4 * (size - 1)){
+            if (length >= 16 && length > 4 * (size - 1)) {
                 length /= 2;
             } else {
                 return;
@@ -124,7 +124,7 @@ public class ArrayDeque<DequeT> implements Deque<DequeT>{
         }
 
         AList<DequeT> resizedAL = new AList<>();
-        for (int j = 0; j < size; j++){
+        for (int j = 0; j < size; j++) {
             resizedAL.items[j] = AL.items[(head + j) % oriLength];
             //After resizing the ALList, head should be equal to 0
         }
@@ -134,8 +134,8 @@ public class ArrayDeque<DequeT> implements Deque<DequeT>{
     }
 
     @Override
-    public DequeT get(int index){
-        if (index > size){
+    public DequeT get(int index) {
+        if (index > size) {
             return null;
         }
         return AL.items[(head + index) % length];
