@@ -2,7 +2,7 @@ package deque;
 
 import java.util.Iterator;
 
-public class LinkedListDeque<DequeT> implements Deque<DequeT>, Iterable<DequeT> {
+public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
 
     private static class DLList<T> {
         T item;
@@ -16,7 +16,7 @@ public class LinkedListDeque<DequeT> implements Deque<DequeT>, Iterable<DequeT> 
     }
 
     private int size;
-    private DLList<DequeT> sentinel = new DLList<>(null, null, null);
+    private DLList<T> sentinel = new DLList<>(null, null, null);
 
     public LinkedListDeque() {
         size = 0;
@@ -25,16 +25,16 @@ public class LinkedListDeque<DequeT> implements Deque<DequeT>, Iterable<DequeT> 
     }
 
     @Override
-    public void addFirst(DequeT x) {
-        DLList<DequeT> newItem = new DLList<>(x, sentinel, sentinel.next);
+    public void addFirst(T x) {
+        DLList<T> newItem = new DLList<>(x, sentinel, sentinel.next);
         sentinel.next.prev = newItem;
         sentinel.next = newItem;
         size += 1;
     }
 
     @Override
-    public void addLast(DequeT x) {
-        DLList<DequeT> newItem = new DLList<>(x, sentinel.prev, sentinel);
+    public void addLast(T x) {
+        DLList<T> newItem = new DLList<>(x, sentinel.prev, sentinel);
         sentinel.prev.next = newItem;
         sentinel.prev = newItem;
         size += 1;
@@ -47,7 +47,7 @@ public class LinkedListDeque<DequeT> implements Deque<DequeT>, Iterable<DequeT> 
 
     @Override
     public void printDeque() {
-        DLList<DequeT> p = sentinel.next;
+        DLList<T> p = sentinel.next;
         for (int i = 0; i < size; i++) {
             System.out.print(p.item + " ");
             p = p.next;
@@ -56,12 +56,12 @@ public class LinkedListDeque<DequeT> implements Deque<DequeT>, Iterable<DequeT> 
     }
 
     @Override
-    public DequeT removeFirst() {
+    public T removeFirst() {
         if (sentinel.next == sentinel) {
             return null;
         } else {
-            DLList<DequeT> removedItem = sentinel.next;
-            DLList<DequeT> newHead = sentinel.next.next;
+            DLList<T> removedItem = sentinel.next;
+            DLList<T> newHead = sentinel.next.next;
             sentinel.next = newHead;
             newHead.prev = sentinel;
             size -= 1;
@@ -70,12 +70,12 @@ public class LinkedListDeque<DequeT> implements Deque<DequeT>, Iterable<DequeT> 
     }
 
     @Override
-    public DequeT removeLast() {
+    public T removeLast() {
         if (sentinel.prev == sentinel) {
             return null;
         } else {
-            DLList<DequeT> removedItem = sentinel.prev;
-            DLList<DequeT> newEnd = sentinel.prev.prev;
+            DLList<T> removedItem = sentinel.prev;
+            DLList<T> newEnd = sentinel.prev.prev;
             sentinel.prev = newEnd;
             newEnd.next = sentinel;
             size -= 1;
@@ -84,8 +84,8 @@ public class LinkedListDeque<DequeT> implements Deque<DequeT>, Iterable<DequeT> 
     }
 
     @Override
-    public DequeT get(int index) {
-        DLList<DequeT> p = sentinel.next;
+    public T get(int index) {
+        DLList<T> p = sentinel.next;
         for (int i = 0; i < index; i++) {
             if (p == sentinel) {
                 return null;
@@ -96,7 +96,7 @@ public class LinkedListDeque<DequeT> implements Deque<DequeT>, Iterable<DequeT> 
     }
 
     /** Helps to recursively get the ith item. */
-    private DequeT recursionHelper(DLList<DequeT> p, int i) {
+    private T recursionHelper(DLList<T> p, int i) {
         if (p == sentinel) {
             return null;
         } else if (i == 0) {
@@ -107,16 +107,16 @@ public class LinkedListDeque<DequeT> implements Deque<DequeT>, Iterable<DequeT> 
     }
 
     /** Same as get but uses recursion. */
-    public DequeT getRecursive(int index) {
+    public T getRecursive(int index) {
         return recursionHelper(sentinel.next, index);
     }
 
-    public Iterator<DequeT> iterator() {
+    public Iterator<T> iterator() {
         return new LLDIterator();
     }
 
-    private class LLDIterator implements Iterator<DequeT> {
-        private DLList<DequeT> currentNode;
+    private class LLDIterator implements Iterator<T> {
+        private DLList<T> currentNode;
 
         public LLDIterator() {
             currentNode = sentinel.next;
@@ -128,8 +128,8 @@ public class LinkedListDeque<DequeT> implements Deque<DequeT>, Iterable<DequeT> 
         }
 
         @Override
-        public DequeT next() {
-            DequeT item = currentNode.item;
+        public T next() {
+            T item = currentNode.item;
             currentNode = currentNode.next;
             return item;
         }

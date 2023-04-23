@@ -2,7 +2,7 @@ package deque;
 
 import java.util.Iterator;
 
-public class ArrayDeque<DequeT> implements Deque<DequeT>, Iterable<DequeT> {
+public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
     private int size;
     private int head;
@@ -16,7 +16,7 @@ public class ArrayDeque<DequeT> implements Deque<DequeT>, Iterable<DequeT> {
         }
     }
 
-    private AList<DequeT> AL = new AList<>();
+    private AList<T> AL = new AList<>();
 
     public ArrayDeque() {
         size = 0;
@@ -25,7 +25,7 @@ public class ArrayDeque<DequeT> implements Deque<DequeT>, Iterable<DequeT> {
     }
 
     @Override
-    public void addFirst(DequeT x) {
+    public void addFirst(T x) {
         if (size == 0) {
             AL.items[head] = x;
             size += 1;
@@ -39,7 +39,7 @@ public class ArrayDeque<DequeT> implements Deque<DequeT>, Iterable<DequeT> {
     }
 
     @Override
-    public void addLast(DequeT x) {
+    public void addLast(T x) {
         if (size == 0) {
             AL.items[end] = x;
             size += 1;
@@ -69,19 +69,19 @@ public class ArrayDeque<DequeT> implements Deque<DequeT>, Iterable<DequeT> {
     }
 
     @Override
-    public DequeT removeFirst() {
+    public T removeFirst() {
         if (size == 0) {
             return null;
         }
         if (size == 1) {
-            DequeT removedItem = AL.items[head];
+            T removedItem = AL.items[head];
             AL.items[head] = null;
             size -= 1;
             return removedItem;
         }
 
         resize(-1);
-        DequeT removedItem = AL.items[head];
+        T removedItem = AL.items[head];
         AL.items[head] = null;
         head = (head + 1) % length;
         size -= 1;
@@ -89,19 +89,19 @@ public class ArrayDeque<DequeT> implements Deque<DequeT>, Iterable<DequeT> {
     }
 
     @Override
-    public DequeT removeLast() {
+    public T removeLast() {
         if (size == 0) {
             return null;
         }
         if (size == 1) {
-            DequeT removedItem = AL.items[end];
+            T removedItem = AL.items[end];
             AL.items[end] = null;
             size -= 1;
             return removedItem;
         }
 
         resize(-1);
-        DequeT removedItem = AL.items[end];
+        T removedItem = AL.items[end];
         AL.items[end] = null;
         end = (end - 1 + length) % length;
         size -= 1;
@@ -125,7 +125,7 @@ public class ArrayDeque<DequeT> implements Deque<DequeT>, Iterable<DequeT> {
             }
         }
 
-        AList<DequeT> resizedAL = new AList<>();
+        AList<T> resizedAL = new AList<>();
         for (int j = 0; j < size; j++) {
             resizedAL.items[j] = AL.items[(head + j) % oriLength];
             //After resizing the ALList, head should be equal to 0
@@ -136,18 +136,18 @@ public class ArrayDeque<DequeT> implements Deque<DequeT>, Iterable<DequeT> {
     }
 
     @Override
-    public DequeT get(int index) {
+    public T get(int index) {
         if (index > size) {
             return null;
         }
         return AL.items[(head + index) % length];
     }
 
-    public Iterator<DequeT> iterator() {
+    public Iterator<T> iterator() {
         return new ADIterator();
     }
 
-    private class ADIterator implements Iterator<DequeT> {
+    private class ADIterator implements Iterator<T> {
 
         private int currentItem;
         public ADIterator(){
@@ -160,8 +160,8 @@ public class ArrayDeque<DequeT> implements Deque<DequeT>, Iterable<DequeT> {
         }
 
         @Override
-        public DequeT next() {
-            DequeT item = AL.items[currentItem];
+        public T next() {
+            T item = AL.items[currentItem];
             currentItem += 1;
             return item;
         }
