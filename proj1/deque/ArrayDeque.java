@@ -1,6 +1,8 @@
 package deque;
 
-public class ArrayDeque<DequeT> implements Deque<DequeT> {
+import java.util.Iterator;
+
+public class ArrayDeque<DequeT> implements Deque<DequeT>, Iterable<DequeT> {
 
     private int size;
     private int head;
@@ -139,6 +141,49 @@ public class ArrayDeque<DequeT> implements Deque<DequeT> {
             return null;
         }
         return AL.items[(head + index) % length];
+    }
+
+    public Iterator<DequeT> iterator() {
+        return new ADIterator();
+    }
+
+    private class ADIterator implements Iterator<DequeT> {
+
+        private int currentItem;
+        public ADIterator(){
+            currentItem = 0;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return currentItem < size;
+        }
+
+        @Override
+        public DequeT next() {
+            DequeT item = AL.items[currentItem];
+            currentItem += 1;
+            return item;
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Deque)) {
+            return false;
+        }
+
+        if (!(((Deque<?>) o).size() == this.size())) {
+            return false;
+        }
+
+        for (int i = 0; i < size(); i++) {
+            if (!(((Deque<?>) o).get(i).equals(this.get(i)))) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 }

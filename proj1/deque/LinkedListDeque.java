@@ -1,6 +1,8 @@
 package deque;
 
-public class LinkedListDeque<DequeT> implements Deque<DequeT> {
+import java.util.Iterator;
+
+public class LinkedListDeque<DequeT> implements Deque<DequeT>, Iterable<DequeT> {
 
     private static class DLList<T> {
         T item;
@@ -109,6 +111,48 @@ public class LinkedListDeque<DequeT> implements Deque<DequeT> {
         return recursionHelper(sentinel.next, index);
     }
 
+    public Iterator<DequeT> iterator() {
+        return new LLDIterator();
+    }
+
+    private class LLDIterator implements Iterator<DequeT> {
+        private DLList<DequeT> currentNode;
+
+        public LLDIterator() {
+            currentNode = sentinel.next;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return currentNode != sentinel;
+        }
+
+        @Override
+        public DequeT next() {
+            DequeT item = currentNode.item;
+            currentNode = currentNode.next;
+            return item;
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Deque)) {
+            return false;
+        }
+
+        if (!(((Deque<?>) o).size() == this.size())) {
+            return false;
+        }
+
+        for (int i = 0; i < size(); i++) {
+            if (!(((Deque<?>) o).get(i).equals(this.get(i)))) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
 
 

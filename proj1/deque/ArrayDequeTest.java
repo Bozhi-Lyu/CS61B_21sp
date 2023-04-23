@@ -2,6 +2,8 @@ package deque;
 
 import org.junit.Test;
 
+import java.util.Iterator;
+
 import static org.junit.Assert.*;
 
 
@@ -139,8 +141,43 @@ public class ArrayDequeTest {
     }
 
 
+    /**
+     * Tests for .iterator()*/
+    @Test
+    public void iteratorTest(){
 
 
+        ArrayDeque<Character> ad1 = new ArrayDeque<>();
+        for (char a = 'a'; a <= 'n'; a++) {
+            ad1.addLast(a);
+        }
+        String result = "";
+        Iterator<Character> iter1 = ad1.iterator();
+        while (iter1.hasNext()) {
+            result += iter1.next();
+        }
+
+        assertEquals("abcdefghijklmn", result);
+
+    }
+
+    /**
+     * Tests for .equals()*/
+    @Test
+    public void equalsTest(){
+
+
+        ArrayDeque<Character> ad1 = new ArrayDeque<>();
+        LinkedListDeque<Character> lld1 = new LinkedListDeque<>();
+        for (char a = 'a'; a <= 'n'; a++) {
+            ad1.addLast(a);
+            lld1.addLast(a);
+        }
+
+        assertTrue(ad1.equals(lld1));
+        assertTrue(lld1.equals(ad1));
+
+    }
 
 
 

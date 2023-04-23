@@ -50,6 +50,8 @@ public class RandomTest {
                     int lldSize = lld.size();
                     assertEquals(adSize, lldSize);
                 }
+                assertTrue(ad.equals(lld));
+                assertTrue(lld.equals(ad));
 
 
             } else if (operationNum == 4) {
@@ -60,6 +62,8 @@ public class RandomTest {
                 int adR = ad.removeLast();
                 int lldR = lld.removeLast();
                 assertEquals(adR, lldR);
+                assertTrue(ad.equals(lld));
+                assertTrue(lld.equals(ad));
 
             } else if (operationNum == 5) {
                 //get
