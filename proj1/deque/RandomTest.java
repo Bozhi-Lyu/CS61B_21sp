@@ -53,7 +53,6 @@ public class RandomTest {
                 assertTrue(ad.equals(lld));
                 assertTrue(lld.equals(ad));
 
-
             } else if (operationNum == 4) {
                 //removeLast
                 if (ad.size() == 0 || lld.size() == 0) {
@@ -90,12 +89,8 @@ public class RandomTest {
                     int index2 = StdRandom.uniform(0, ad.size());
                     assertEquals((int) ad.get(index2), (int) lld.getRecursive(index2));
                 }
-
             }
-
         }
-
-
     }
 
 

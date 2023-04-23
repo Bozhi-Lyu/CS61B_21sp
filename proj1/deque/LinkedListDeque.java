@@ -118,7 +118,7 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
     private class LLDIterator implements Iterator<T> {
         private DLList<T> currentNode;
 
-        public LLDIterator() {
+        LLDIterator() {
             currentNode = sentinel.next;
         }
 

@@ -150,7 +150,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     private class ADIterator implements Iterator<T> {
 
         private int currentItem;
-        public ADIterator(){
+        ADIterator() {
             currentItem = 0;
         }
 
