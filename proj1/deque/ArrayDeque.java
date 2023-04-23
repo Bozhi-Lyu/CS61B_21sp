@@ -161,7 +161,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
         @Override
         public T next() {
-            T item = AL.items[currentItem];
+            T item = AL.items[(head + currentItem) % length];
             currentItem += 1;
             return item;
         }
